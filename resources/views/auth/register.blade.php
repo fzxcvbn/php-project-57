@@ -3,6 +3,8 @@
         <a href="{{ route('home') }}">{{__('Task manager')}}</a>
     </h2>
 
+    <x-validation-errors :messages="$errors->all()"/>
+
     <form method="POST" action="{{ route('register') }}">
         @csrf
 

@@ -6,6 +6,8 @@
     <!-- Session Status -->
     <x-auth-session-status class="mb-4" :status="session('status')" />
 
+    <x-validation-errors :messages="$errors->all()"/>
+
     <form method="POST" action="{{ route('login') }}">
         @csrf
 
