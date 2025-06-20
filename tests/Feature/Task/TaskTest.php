@@ -73,11 +73,11 @@ class TaskTest extends TestCase
     public function testEditScreenCanBeRendered(): void
     {
         $creator = User::factory()->create();
-        
+
         $task = Task::factory()->create(['created_by_id' => $creator->id]);
-    
+
         $response = $this->actingAs($creator)->get(route('tasks.edit', $task));
-        
+
         $response->assertOk();
     }
 
