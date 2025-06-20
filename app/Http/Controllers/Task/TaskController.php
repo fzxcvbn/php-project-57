@@ -25,12 +25,7 @@ class TaskController extends Controller
 
     public function index(Request $request): View
     {
-        $tasks = QueryBuilder::for(Task::class)->allowedFilters(
-                                [
-                                     AllowedFilter::exact('status_id'),
-                                     AllowedFilter::exact('created_by_id'),
-                                     AllowedFilter::exact('assigned_to_id'),
-                                ])->allowedSorts('id')->get();
+        $tasks = QueryBuilder::for(Task::class)->allowedFilters([AllowedFilter::exact('status_id'), AllowedFilter::exact('created_by_id'), AllowedFilter::exact('assigned_to_id')])->allowedSorts('id')->get();
 
         $taskStatuses = TaskStatus::pluck('name', 'id');
         $users = User::pluck('name', 'id');

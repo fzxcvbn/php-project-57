@@ -8,7 +8,6 @@ use App\Models\Label;
 use App\Policies\TaskStatusPolicy;
 use App\Policies\TaskPolicy;
 use App\Policies\LabelPolicy;
-
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 
 class AuthServiceProvider extends ServiceProvider
