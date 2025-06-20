@@ -45,7 +45,9 @@ class TaskController extends Controller
 
     public function store(StoreTaskRequest $request): RedirectResponse
     {
-        $labels = array_filter($request->get('labels', []));
+        $labels = array_filter($request->get('labels', []), function($value) {
+            return $value !== null && $value !== '' && $value !== false;
+        });
 
         $task = new Task();
         $task->fill($request->validated());
@@ -74,7 +76,9 @@ class TaskController extends Controller
 
     public function update(UpdateTaskRequest $request, Task $task): RedirectResponse
     {
-        $labels = array_filter($request->get('labels', []));
+        $labels = array_filter($request->get('labels', []), function($value) {
+            return $value !== null && $value !== '' && $value !== false;
+        });
 
         $task->fill($request->validated());
         $task->labels()->sync($labels);
