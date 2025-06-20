@@ -91,28 +91,11 @@ class TaskTest extends TestCase
     public function testCanBeUpdated(): void
     {
         $task = Task::factory()->create();
+        $task = Task::with('creator')->create();
 
-        if (!$task->relationLoaded('creator')) {
-            $task->load('creator');
-        }
+        $this->actingAs($task->creator)->patch(route('tasks.update', $task), $this->formData)->assertRedirect(route('tasks.index'));
 
-        $this->assertNotNull($task->creator, 'Task creator is missing');
-
-        $formData = [
-            'title' => 'Updated Title',
-            'description' => 'Updated description',
-        ];
-
-        $response = $this->actingAs($task->creator)->patch(route('tasks.update', $task), $formData);
-
-        $response->assertRedirect(route('tasks.index'));
-
-        $this->assertDatabaseHas('tasks', [
-            'id' => $task->id,
-            'title' => 'Updated Title',
-            'description' => 'Updated description',
-            'created_by_id' => $task->creator->id,
-        ]);
+        $this->assertDatabaseHas($this->tableName, $this->formData);
     }
 
     public function testCannotBeUpdatedForGuest(): void
@@ -125,20 +108,11 @@ class TaskTest extends TestCase
     public function testCanBeDeleted(): void
     {
         $task = Task::factory()->create();
+        $task = Task::with('creator')->create();
 
-        if (!$task->relationLoaded('creator')) {
-            $task->load('creator');
-        }
+        $this->actingAs($task->creator)->delete(route('tasks.destroy', $task))->assertRedirect(route('tasks.index'));
 
-        $this->assertNotNull($task->creator, 'Task creator is missing');
-
-        $response = $this->actingAs($task->creator)->delete(route('tasks.destroy', $task));
-
-        $response->assertRedirect(route('tasks.index'));
-
-        $this->assertDatabaseMissing('tasks', [
-            'id' => $task->id
-        ]);
+        $this->assertDatabaseMissing($this->tableName, $task->only('id'));
     }
 
     public function testCannotBeDeletedForNotAuthor(): void
