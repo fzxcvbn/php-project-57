@@ -92,9 +92,27 @@ class TaskTest extends TestCase
     {
         $task = Task::factory()->create();
 
-        $this->actingAs($task->creator)->patch(route('tasks.update', $task), $this->formData)->assertRedirect(route('tasks.index'));
+        if (!$task->relationLoaded('creator')) {
+            $task->load('creator');
+        }
 
-        $this->assertDatabaseHas($this->tableName, $this->formData);
+        $this->assertNotNull($task->creator, 'Task creator is missing');
+
+        $formData = [
+            'title' => 'Updated Title',
+            'description' => 'Updated description',
+        ];
+
+        $response = $this->actingAs($task->creator)->patch(route('tasks.update', $task), $formData);
+
+        $response->assertRedirect(route('tasks.index'));
+
+        $this->assertDatabaseHas('tasks', [
+            'id' => $task->id,
+            'title' => 'Updated Title',
+            'description' => 'Updated description',
+            'created_by_id' => $task->creator->id,
+        ]);
     }
 
     public function testCannotBeUpdatedForGuest(): void
@@ -108,9 +126,19 @@ class TaskTest extends TestCase
     {
         $task = Task::factory()->create();
 
-        $this->actingAs($task->creator)->delete(route('tasks.destroy', $task))->assertRedirect(route('tasks.index'));
+        if (!$task->relationLoaded('creator')) {
+            $task->load('creator');
+        }
 
-        $this->assertDatabaseMissing($this->tableName, $task->only('id'));
+        $this->assertNotNull($task->creator, 'Task creator is missing');
+
+        $response = $this->actingAs($task->creator)->delete(route('tasks.destroy', $task));
+
+        $response->assertRedirect(route('tasks.index'));
+
+        $this->assertDatabaseMissing('tasks', [
+            'id' => $task->id
+        ]);
     }
 
     public function testCannotBeDeletedForNotAuthor(): void
