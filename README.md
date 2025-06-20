@@ -5,6 +5,4 @@
 
 [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=fzxcvbn_php-project-57&metric=coverage)](https://sonarcloud.io/summary/new_code?id=fzxcvbn_php-project-57)
 
-[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=fzxcvbn_php-project-57&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=fzxcvbn_php-project-57)
-
 https://php-project-57-z6dm.onrender.com

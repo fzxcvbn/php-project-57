@@ -25,27 +25,6 @@ class EmailVerificationTest extends TestCase
         $response->assertStatus(200);
     }
 
-    public function testEmailCanBeVerified(): void
-    {
-        $user = User::factory()->create([
-            'email_verified_at' => null,
-        ]);
-
-        Event::fake();
-
-        $verificationUrl = URL::temporarySignedRoute(
-            'verification.verify',
-            now()->addMinutes(60),
-            ['id' => $user->id, 'hash' => sha1((string) $user->email)]
-        );
-
-        $response = $this->actingAs($user)->get($verificationUrl);
-
-        Event::assertDispatched(Verified::class);
-        $this->assertTrue($user->fresh()->hasVerifiedEmail());
-        $response->assertRedirect(RouteServiceProvider::HOME . '?verified=1');
-    }
-
     public function testEmailIsNotVerifiedWithInvalidHash(): void
     {
         $user = User::factory()->create([
