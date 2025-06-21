@@ -21,6 +21,6 @@ RUN composer install --no-dev --optimize-autoloader
 RUN npm ci
 RUN npm run build
 
-RUN touch database/database.sqlite && chmod 666 database/database.sqlite
+RUN chmod -R 777 storage bootstrap/cache
 
 CMD ["sh", "-c", "php artisan serve --host=0.0.0.0 --port=${PORT:-8000}"]
