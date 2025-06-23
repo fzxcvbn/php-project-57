@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1750699706">
-  <project timestamp="1750699706" name="Clover Coverage">
+<coverage generated="1750700589">
+  <project timestamp="1750700589" name="Clover Coverage">
     <package name="App\Http\Controllers\Auth">
       <file name="/home/deekhid/Рабочий стол/php-project-57/app/Http/Controllers/Auth/AuthenticatedSessionController.php">
         <class name="App\Http\Controllers\Auth\AuthenticatedSessionController" namespace="App\Http\Controllers\Auth">

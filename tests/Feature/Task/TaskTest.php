@@ -115,7 +115,7 @@ class TaskTest extends TestCase
 
         $response->assertRedirect(route('tasks.index'));
 
-        $this->assertDatabaseMissing($this->tableName, ['id' => $task->id]);
+        $this->assertDatabaseMissing($this->tableName, $task->only('id'));
     }
 
     public function testCannotBeDeletedForNotAuthor(): void
