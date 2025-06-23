@@ -4,13 +4,10 @@ namespace Feature\Task;
 
 use App\Models\TaskStatus;
 use App\Models\User;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class TaskStatusTest extends TestCase
 {
-    use RefreshDatabase;
-
     public function testTaskStatusesScreenCanBeRendered(): void
     {
         $this->get(route('task_statuses.index'))->assertOk();

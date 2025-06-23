@@ -5,13 +5,10 @@ namespace Feature\Task;
 use Override;
 use App\Models\Task;
 use App\Models\User;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class TaskTest extends TestCase
 {
-    use RefreshDatabase;
-
     private string $tableName;
     private array $formData;
 
@@ -90,10 +87,13 @@ class TaskTest extends TestCase
 
     public function testCanBeUpdated(): void
     {
-        $task = Task::factory()->create();
-        $task = Task::with('creator')->create();
+        $user = User::factory()->create();
 
-        $this->actingAs($task->creator)->patch(route('tasks.update', $task), $this->formData)->assertRedirect(route('tasks.index'));
+        $task = Task::factory()->create(['created_by_id' => $user->id]);
+
+        $response = $this->actingAs($user)->patch(route('tasks.update', $task), $this->formData);
+
+        $response->assertRedirect(route('tasks.index'));
 
         $this->assertDatabaseHas($this->tableName, $this->formData);
     }
@@ -107,12 +107,15 @@ class TaskTest extends TestCase
 
     public function testCanBeDeleted(): void
     {
-        $task = Task::factory()->create();
-        $task = Task::with('creator')->create();
+        $user = User::factory()->create();
 
-        $this->actingAs($task->creator)->delete(route('tasks.destroy', $task))->assertRedirect(route('tasks.index'));
+        $task = Task::factory()->create(['created_by_id' => $user->id]);
 
-        $this->assertDatabaseMissing($this->tableName, $task->only('id'));
+        $response = $this->actingAs($user)->delete(route('tasks.destroy', $task));
+
+        $response->assertRedirect(route('tasks.index'));
+
+        $this->assertDatabaseMissing($this->tableName, ['id' => $task->id]);
     }
 
     public function testCannotBeDeletedForNotAuthor(): void

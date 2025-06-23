@@ -29,3 +29,10 @@ h2 {
     background-color: #f8d7da;
     border-color: #f5c6cb;
 }
+
+.wrap-text {
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    white-space: normal;
+    word-break: break-all;
+}
