@@ -5,4 +5,18 @@
 
 [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=fzxcvbn_php-project-57&metric=coverage)](https://sonarcloud.io/summary/new_code?id=fzxcvbn_php-project-57)
 
-https://php-project-57-z6dm.onrender.com
+## Task manager
+Task Manager – система управления задачами, подобная http://www.redmine.org/. Она позволяет ставить задачи, назначать исполнителей и менять их статусы. Для работы с системой требуется регистрация и аутентификация.
+
+Демо: https://php-project-57-z6dm.onrender.com
+
+## Установка и запуск
+```
+$ git clone https://github.com/kaivladimirv/php-project-57.git
+
+$ cd php-project-57
+
+$ make setup
+
+$ make start
+```
